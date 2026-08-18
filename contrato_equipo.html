@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contrato de Equipo · Proyecto de Grado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #101b22; --navy: #123a4d; --navy-deep: #0c2733;
+    --paper: #f4f6f5; --paper-raised: #ffffff;
+    --teal: #1c7c74; --teal-deep: #145f59;
+    --gold: #b8862b; --gold-deep: #93691f;
+    --line: #d7dfe1; --muted: #5c6b70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; line-height: 1.5; }
+
+  .page-head { max-width: 900px; margin: 0 auto; padding: 56px 6vw 8px; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-deep); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--teal-deep); display: inline-block; }
+  .page-head h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.7rem, 3.6vw, 2.2rem); color: var(--navy-deep); letter-spacing: -0.01em; }
+  .page-head .lede { margin-top: 10px; font-size: 0.92rem; color: var(--muted); max-width: 64ch; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 6vw 80px; }
+
+  .intro-card { background: var(--paper-raised); border: 1px solid var(--line); border-top: 3px solid var(--teal); border-radius: 4px; padding: 26px 24px; margin-bottom: 22px; }
+  .intro-card p { font-size: 0.9rem; line-height: 1.65; color: var(--muted); margin-bottom: 10px; }
+  .intro-card p:last-child { margin-bottom: 0; }
+  .intro-card strong { color: var(--navy-deep); }
+
+  .download-card {
+    background: linear-gradient(135deg, var(--navy-deep), var(--navy));
+    border-radius: 6px; padding: 30px 28px; margin-bottom: 30px;
+    display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  }
+  .download-icon { flex-shrink: 0; width: 54px; height: 54px; border-radius: 8px; background: rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; }
+  .download-icon svg { width: 28px; height: 28px; color: #fff; }
+  .download-body { flex: 1; min-width: 220px; }
+  .download-body .dl-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: #a9c9c5; margin-bottom: 4px; }
+  .download-body .dl-title { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .download-body .dl-desc { font-size: 0.82rem; color: #cfe0dd; }
+  .download-btn {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; color: var(--navy-deep); font-weight: 700; font-size: 0.88rem;
+    padding: 13px 22px; border-radius: 4px; text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 30px 0 14px; }
+
+  .guide-card { background: var(--paper-raised); border: 1px solid var(--line); border-left: 4px solid var(--teal); border-radius: 4px; padding: 22px 24px; margin-bottom: 14px; }
+  .guide-card .g-num { font-family:'IBM Plex Mono', monospace; font-size:0.66rem; color: var(--teal-deep); font-weight:700; letter-spacing:0.04em; text-transform:uppercase; margin-bottom:4px; }
+  .guide-card .g-title { font-family: 'Fraunces', serif; font-size: 1.02rem; font-weight: 600; color: var(--navy-deep); margin-bottom: 6px; }
+  .guide-card .g-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.55; margin-bottom: 8px; }
+  .guide-card ul.g-questions { list-style: none; margin-top: 6px; }
+  .guide-card ul.g-questions li { font-size: 0.84rem; color: var(--ink); padding: 4px 0 4px 18px; position: relative; }
+  .guide-card ul.g-questions li::before { content: '?'; position:absolute; left:0; color: var(--gold-deep); font-weight:700; }
+  .guide-card .g-tip { margin-top: 10px; font-size: 0.8rem; color: var(--teal-deep); background: #f2f8f7; border-radius: 3px; padding: 8px 12px; }
+
+  .footnote { margin-top: 26px; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; }
+</style>
+<link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+<div id="sidebar-placeholder"></div>
+
+<div class="page-head">
+  <div class="eyebrow">PROYECTO DE GRADO · GUÍA DE EQUIPO</div>
+  <h1>Contrato de Equipo</h1>
+  <p class="lede">Cómo acordar por escrito la forma en que van a trabajar juntos, antes de que aparezcan los primeros desacuerdos.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-card">
+    <p>Un contrato de equipo no reemplaza la confianza entre compañeros — la ordena. Es un acuerdo simple que responden <strong>todos juntos, en una reunión</strong>, sobre cómo se van a comunicar, decidir y resolver conflictos durante el proyecto.</p>
+    <p>Abajo tienes la plantilla en Word para descargar, y una guía de qué conversar en cada sección antes de completarla.</p>
+  </div>
+
+  <div class="download-card">
+    <div class="download-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <div class="download-body">
+      <div class="dl-label">Plantilla · Word (.docx)</div>
+      <div class="dl-title">Contrato de Equipo — Proyecto de Grado</div>
+      <div class="dl-desc">Lista para completar a mano o en el computador, con espacio de firma para todos los integrantes.</div>
+    </div>
+    <a class="download-btn" href="contrato_equipo_plantilla.docx" download>
+      ⬇ Descargar plantilla
+    </a>
+  </div>
+
+  <div class="section-label">Guía por sección</div>
+
+  <div class="guide-card">
+    <div class="g-num">0 · Datos del equipo</div>
+    <div class="g-title">¿Quiénes forman parte de este acuerdo?</div>
+    <div class="g-desc">Anoten a todos los integrantes del equipo. Si ya hicieron el test de Roles de Equipo (Belbin) o el de Liderazgo, pueden anotar el rol de cada uno — ayuda a recordar las fortalezas de cada persona más adelante.</div>
+  </div>
+
+  <div class="guide-card">
+    <div class="g-num">1 · Comunicación</div>
+    <div class="g-title">¿Cómo nos vamos a comunicar?</div>
+    <ul class="g-questions">
+      <li>¿Cuál va a ser el canal principal (WhatsApp, correo, otro)?</li>
+      <li>¿Con qué frecuencia se van a reunir, y en qué formato?</li>
+      <li>¿Cuánto tiempo es razonable esperar una respuesta a un mensaje del equipo?</li>
+      <li>¿Qué hacen si alguien no puede asistir a una reunión?</li>
+    </ul>
+    <div class="g-tip">💡 Sean concretos: "avisar con 12 horas de anticipación" es más útil que "avisar con tiempo".</div>
+  </div>
+
+  <div class="guide-card">
+    <div class="g-num">2 · Toma de decisiones</div>
+    <div class="g-title">¿Cómo decidimos cuando no estamos de acuerdo?</div>
+    <div class="g-desc">La plantilla ofrece cuatro métodos para elegir (consenso, mayoría simple, rol coordinador, o consultar al profesor guía). Elijan el que mejor represente cómo quieren trabajar — no tiene que ser el mismo para todo el proyecto.</div>
+  </div>
+
+  <div class="guide-card">
+    <div class="g-num">3 · Calidad y plazos</div>
+    <div class="g-title">Estándares de trabajo</div>
+    <ul class="g-questions">
+      <li>¿Con cuánta anticipación entregan su parte para que otros la revisen?</li>
+      <li>¿Quién revisa el trabajo de cada integrante antes de enviarlo?</li>
+      <li>¿Qué esperan si alguien no cumple con una tarea o un plazo?</li>
+    </ul>
+    <div class="g-tip">💡 Conversen esto antes de que ocurra un atraso — es mucho más fácil acordarlo en frío que después de un conflicto.</div>
+  </div>
+
+  <div class="guide-card">
+    <div class="g-num">4 · Manejo de conflictos</div>
+    <div class="g-title">Si surge un desacuerdo, ¿qué pasos siguen?</div>
+    <div class="g-desc">Definan una escalada simple, de menor a mayor formalidad: primero conversarlo directamente entre los involucrados, luego llevarlo al equipo completo si no se resuelve, y por último pedir apoyo externo (normalmente el profesor guía) si sigue sin resolverse.</div>
+  </div>
+
+  <div class="guide-card">
+    <div class="g-num">5 · Compromiso</div>
+    <div class="g-title">Firma del equipo</div>
+    <div class="g-desc">Pongan la fecha del acuerdo y que todos los integrantes firmen. Esto no es solo un trámite: es la señal de que todos participaron en construirlo y están de acuerdo con su contenido.</div>
+  </div>
+
+  <p class="footnote">Este contrato puede revisarse y ajustarse más adelante si el equipo lo acuerda — no es un documento rígido, es un punto de partida para trabajar mejor juntos.</p>
+
+</div>
+<script src="sidebar.js"></script>
+</body>
+</html>

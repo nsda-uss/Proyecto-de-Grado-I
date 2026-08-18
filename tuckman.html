@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etapas de Equipo (Tuckman) · Proyecto de Grado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #101b22; --navy: #123a4d; --navy-deep: #0c2733;
+    --paper: #f4f6f5; --paper-raised: #ffffff;
+    --teal: #1c7c74; --teal-deep: #145f59;
+    --gold: #b8862b; --gold-deep: #93691f;
+    --line: #d7dfe1; --muted: #5c6b70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; line-height: 1.5; }
+
+  .page-head { max-width: 900px; margin: 0 auto; padding: 56px 6vw 8px; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-deep); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--teal-deep); display: inline-block; }
+  .page-head h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.7rem, 3.6vw, 2.2rem); color: var(--navy-deep); letter-spacing: -0.01em; }
+  .page-head .lede { margin-top: 10px; font-size: 0.92rem; color: var(--muted); max-width: 64ch; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 6vw 80px; }
+
+  .intro-card { background: var(--paper-raised); border: 1px solid var(--line); border-top: 3px solid var(--teal); border-radius: 4px; padding: 26px 24px; margin-bottom: 26px; }
+  .intro-card h2 { font-family: 'Fraunces', serif; font-weight: 600; color: var(--navy-deep); margin-bottom: 10px; font-size: 1.1rem; }
+  .intro-card p { font-size: 0.88rem; line-height: 1.65; color: var(--muted); margin-bottom: 10px; }
+  .intro-card p:last-child { margin-bottom: 0; }
+  .intro-card strong { color: var(--navy-deep); }
+
+  /* Línea de tiempo */
+  .timeline { display: flex; gap: 6px; margin: 22px 0 30px; overflow-x: auto; padding-bottom: 6px; }
+  .timeline-stage {
+    flex: 1; min-width: 128px; cursor: pointer; text-align: center;
+    padding: 14px 8px; border-radius: 4px; border: 2px solid var(--line);
+    background: var(--paper-raised); transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .timeline-stage:hover { transform: translateY(-2px); }
+  .timeline-stage.selected { border-color: var(--teal); background: #f2f8f7; }
+  .timeline-stage .ts-icon { font-size: 1.5rem; margin-bottom: 6px; }
+  .timeline-stage .ts-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 0.86rem; color: var(--navy-deep); }
+  .timeline-stage .ts-month { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-top: 4px; }
+  .timeline-connector { display:flex; align-items:center; color: var(--line); font-size: 1.2rem; padding-top: 26px; flex-shrink:0; }
+
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 8px 0 14px; }
+
+  .detail-card { display:none; background: var(--paper-raised); border: 1px solid var(--line); border-left: 5px solid var(--teal); border-radius: 4px; padding: 28px 26px; margin-bottom: 26px; }
+  .detail-card.visible { display:block; }
+  .detail-head { display:flex; align-items:center; gap: 14px; margin-bottom: 18px; }
+  .detail-icon { font-size: 2rem; }
+  .detail-title { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: var(--navy-deep); }
+  .detail-subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--teal-deep); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+
+  .detail-desc { font-size: 0.9rem; color: var(--ink); line-height: 1.6; margin-bottom: 20px; }
+
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 700px) { .detail-grid { grid-template-columns: 1fr; } }
+  .detail-block h3 { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 8px; }
+  .detail-block ul { list-style: none; }
+  .detail-block li { font-size: 0.85rem; color: var(--ink); padding: 6px 0 6px 18px; position: relative; border-bottom: 1px solid var(--paper); }
+  .detail-block li:last-child { border-bottom: none; }
+  .detail-block li::before { content: '—'; position: absolute; left: 0; color: var(--teal); }
+  .detail-block.actions li::before { content: '✓'; color: var(--gold-deep); }
+
+  .btn { display: block; width: 100%; padding: 13px; background: var(--teal); color: #fff; border: none; border-radius: 3px; font-size: 0.92rem; font-weight: 600; cursor: pointer; margin-top: 10px; letter-spacing: 0.01em; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+  .btn.secondary { background: #fff; color: var(--navy-deep); border: 1px solid var(--line); }
+  .btn.secondary:hover { border-color: var(--teal); }
+
+  .email-block { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .email-block label { display:block; font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.04em; text-transform:uppercase; color: var(--muted); margin-bottom:8px; }
+  input[type=email] { width:100%; padding:10px; border:1px solid var(--line); border-radius:3px; font-size:0.9rem; font-family:'Inter', sans-serif; margin-bottom:10px; }
+
+  .empty-hint { text-align:center; color: var(--muted); font-size: 0.88rem; padding: 30px 10px; border: 1px dashed var(--line); border-radius: 4px; margin-bottom: 26px; }
+</style>
+<link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+<div id="sidebar-placeholder"></div>
+
+<div class="page-head">
+  <div class="eyebrow">PROYECTO DE GRADO · HERRAMIENTA DE EQUIPO</div>
+  <h1>Etapas de Equipo (Tuckman)</h1>
+  <p class="lede">Todo equipo pasa por momentos predecibles antes de funcionar bien. Identifica en cuál está el tuyo y qué conviene hacer en cada uno durante el proyecto de grado.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-card">
+    <h2>El modelo de Bruce Tuckman</h2>
+    <p>En 1965, Bruce Tuckman propuso que los equipos atraviesan <strong>5 etapas</strong> antes de alcanzar un desempeño alto: Formación, Conflicto, Normalización, Desempeño y Disolución. No es un defecto del equipo pasar por el conflicto — es una etapa esperable, siempre que se resuelva a tiempo.</p>
+    <p>Estas etapas calzan de forma natural con los <strong>5 meses de la Ficha de Avance</strong> de tu proyecto de grado. Conocer en qué etapa está tu equipo te ayuda a entender por qué ciertas fricciones aparecen en un momento específico, y qué hacer para avanzar a la siguiente.</p>
+    <p>Haz clic en cada etapa de la línea de tiempo para ver sus características, señales de alerta y qué puede hacer tu equipo en ese momento.</p>
+  </div>
+
+  <div class="section-label">Línea de tiempo del proyecto</div>
+  <div class="timeline" id="timeline"></div>
+
+  <div class="empty-hint" id="emptyHint">👆 Haz clic en una etapa arriba para ver el detalle</div>
+
+  <div id="detailContainer"></div>
+
+</div>
+
+<script>
+const STAGES = [
+  {
+    key: 'forming',
+    icon: '🌱',
+    name: 'Formación',
+    month: 'Mes 1 · Diagnóstico',
+    description: 'El equipo recién se conoce o recién empieza a trabajar junto en este proyecto. Todo es cortés, cauteloso y algo ambiguo: nadie quiere generar roce todavía, y las reglas del juego no están del todo claras.',
+    signs: [
+      'Conversaciones formales y educadas, poco conflicto abierto',
+      'Dependencia alta de instrucciones externas (profesor guía, pauta del ramo)',
+      'Roles y responsabilidades aún difusos',
+      'Entusiasmo inicial, pero también incertidumbre sobre el alcance del proyecto'
+    ],
+    actions: [
+      'Aplicar el test de Roles de Equipo (Belbin) y compartir resultados',
+      'Construir juntos el Contrato de Equipo antes de avanzar en el diagnóstico',
+      'Aclarar expectativas: qué espera cada uno del proyecto y del equipo',
+      'Definir el primer mes del Plan de Trabajo con tareas concretas'
+    ]
+  },
+  {
+    key: 'storming',
+    icon: '⚡',
+    name: 'Conflicto',
+    month: 'Mes 2 · Desarrollo',
+    description: 'Empiezan a notarse diferencias de ritmo, de estándares o de opinión sobre cómo abordar el diagnóstico. Es la etapa más incómoda, pero también la más importante: si se evita el conflicto aquí, suele reaparecer con más fuerza cerca de la entrega final.',
+    signs: [
+      'Desacuerdos sobre el enfoque del diagnóstico o la metodología',
+      'Molestia por cargas de trabajo percibidas como desiguales',
+      'Frustración con los tiempos de respuesta de la organización cliente',
+      'Cuestionamiento de decisiones tomadas en la etapa anterior'
+    ],
+    actions: [
+      'Revisar el Contrato de Equipo: ¿se están cumpliendo los acuerdos de comunicación y plazos?',
+      'Usar los pasos de manejo de conflictos definidos en el contrato, en vez de evitarlos',
+      'Separar la discusión de fondo (metodología) de la discusión de forma (cómo se dicen las cosas)',
+      'Si el equipo no logra resolverlo solo, pedir apoyo al profesor guía a tiempo, no al final'
+    ]
+  },
+  {
+    key: 'norming',
+    icon: '⚖️',
+    name: 'Normalización',
+    month: 'Mes 3 · Desarrollo',
+    description: 'El equipo ya resolvió sus primeras fricciones y empieza a encontrar un ritmo propio. Los roles se sienten más naturales, hay más confianza para dar retroalimentación directa y el trabajo de campo avanza con menos fricción.',
+    signs: [
+      'Mayor claridad sobre quién hace qué',
+      'Retroalimentación más directa entre integrantes, sin que se sienta como ataque',
+      'Rutinas de trabajo más estables (reuniones, revisión cruzada)',
+      'El equipo empieza a anticipar problemas en vez de solo reaccionar'
+    ],
+    actions: [
+      'Ajustar el Plan de Trabajo si el ritmo real difiere del estimado inicialmente',
+      'Aprovechar la mayor confianza para repartir tareas según fortalezas (roles Belbin)',
+      'Documentar acuerdos de trabajo que están funcionando bien, para no perderlos',
+      'Seguir cuidando la relación con la organización durante el trabajo de campo'
+    ]
+  },
+  {
+    key: 'performing',
+    icon: '🚀',
+    name: 'Desempeño',
+    month: 'Mes 4 · Resultados y Conclusiones',
+    description: 'El equipo funciona con fluidez: las decisiones se toman rápido, hay confianza mutua y el foco está puesto en el contenido del proyecto, no en cómo trabajar juntos. Es el momento de mayor productividad.',
+    signs: [
+      'Alta autonomía: se resuelven problemas sin necesidad de supervisión constante',
+      'Buena calidad de análisis y avance sostenido en resultados',
+      'El equipo se apoya mutuamente sin que nadie tenga que pedirlo',
+      'Los desacuerdos, cuando ocurren, se resuelven rápido y sin drama'
+    ],
+    actions: [
+      'Mantener el estándar de calidad ahora que se acercan las conclusiones finales',
+      'No relajar la revisión cruzada solo porque el equipo funciona bien',
+      'Empezar a preparar, en paralelo, los insumos para el informe final',
+      'Reconocer explícitamente lo que está funcionando en el equipo'
+    ]
+  },
+  {
+    key: 'adjourning',
+    icon: '🏁',
+    name: 'Disolución',
+    month: 'Mes 5 · Preparación Informes y Presentación',
+    description: 'El proyecto llega a su cierre: se termina de redactar el informe, se prepara la defensa y el equipo se prepara para dejar de trabajar junto en este formato. Puede aparecer cansancio, pero también satisfacción por el cierre.',
+    signs: [
+      'Presión por los plazos de entrega y el examen de grado',
+      'Cansancio acumulado de los meses anteriores',
+      'Necesidad de coordinar la presentación y defensa como equipo',
+      'Sensación de cierre: menos foco en el proceso, más en el resultado final'
+    ],
+    actions: [
+      'Revisar juntos el cumplimiento de la rúbrica antes de la entrega final',
+      'Ensayar la defensa como equipo, repartiendo tiempos y preguntas esperadas',
+      'Dedicar un espacio breve a revisar qué funcionó y qué no en la forma de trabajar juntos',
+      'Cuidar el tono de cierre: agradecer el trabajo del equipo, más allá del resultado'
+    ]
+  }
+];
+
+let selectedStage = null;
+
+function renderTimeline() {
+  const wrap = document.getElementById('timeline');
+  wrap.innerHTML = '';
+  STAGES.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'timeline-stage';
+    el.id = `ts_${s.key}`;
+    el.onclick = () => selectStage(s.key);
+    el.innerHTML = `
+      <div class="ts-icon">${s.icon}</div>
+      <div class="ts-name">${s.name}</div>
+      <div class="ts-month">${s.month}</div>
+    `;
+    wrap.appendChild(el);
+    if (i < STAGES.length - 1) {
+      const arrow = document.createElement('div');
+      arrow.className = 'timeline-connector';
+      arrow.textContent = '→';
+      wrap.appendChild(arrow);
+    }
+  });
+}
+
+function selectStage(key) {
+  selectedStage = key;
+  document.querySelectorAll('.timeline-stage').forEach(el => el.classList.remove('selected'));
+  document.getElementById(`ts_${key}`).classList.add('selected');
+  document.getElementById('emptyHint').style.display = 'none';
+  renderDetail(key);
+}
+
+function renderDetail(key) {
+  const s = STAGES.find(st => st.key === key);
+  const container = document.getElementById('detailContainer');
+  container.innerHTML = `
+    <div class="detail-card visible">
+      <div class="detail-head">
+        <div class="detail-icon">${s.icon}</div>
+        <div>
+          <div class="detail-title">${s.name}</div>
+          <div class="detail-subtitle">${s.month}</div>
+        </div>
+      </div>
+      <div class="detail-desc">${s.description}</div>
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h3>Señales de que el equipo está aquí</h3>
+          <ul>${s.signs.map(x => `<li>${x}</li>`).join('')}</ul>
+        </div>
+        <div class="detail-block actions">
+          <h3>Qué puede hacer el equipo ahora</h3>
+          <ul>${s.actions.map(x => `<li>${x}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="email-block">
+        <label>Enviarme este diagnóstico de etapa por correo</label>
+        <input type="email" id="stageEmail" placeholder="tu.correo@ejemplo.com">
+        <button class="btn" onclick="sendStageByEmail()">Enviarme el detalle →</button>
+        <div id="stageEmailStatus" style="font-size:0.78rem;color:#b0413e;margin-top:8px;"></div>
+      </div>
+    </div>
+  `;
+}
+
+function sendStageByEmail() {
+  const s = STAGES.find(st => st.key === selectedStage);
+  const emailInput = document.getElementById('stageEmail');
+  const statusEl = document.getElementById('stageEmailStatus');
+  const email = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    statusEl.textContent = '⚠️ Ingresa un correo válido.';
+    emailInput.style.borderColor = '#b0413e';
+    return;
+  }
+  emailInput.style.borderColor = 'var(--line)';
+  statusEl.style.color = '#5c6b70';
+  statusEl.textContent = 'Abriendo tu programa de correo...';
+
+  let txt = `ETAPA DE EQUIPO — MODELO DE TUCKMAN\n`;
+  txt += `Proyecto de Grado · Magíster en Gestión de Personas y Efectividad Organizacional\n\n`;
+  txt += `Etapa actual: ${s.name} (${s.month})\n\n`;
+  txt += `${s.description}\n\n`;
+  txt += `SEÑALES DE QUE EL EQUIPO ESTÁ AQUÍ:\n`;
+  s.signs.forEach(x => txt += `- ${x}\n`);
+  txt += `\nQUÉ PUEDE HACER EL EQUIPO AHORA:\n`;
+  s.actions.forEach(x => txt += `- ${x}\n`);
+
+  const subject = `Etapa de Equipo (Tuckman): ${s.name}`;
+  const mailtoLink = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(txt)}`;
+  window.location.href = mailtoLink;
+}
+
+renderTimeline();
+</script>
+<script src="sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roles de Equipo · Test de Belbin · Proyecto de Grado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #101b22;
+    --navy: #123a4d;
+    --navy-deep: #0c2733;
+    --paper: #f4f6f5;
+    --paper-raised: #ffffff;
+    --teal: #1c7c74;
+    --teal-deep: #145f59;
+    --gold: #b8862b;
+    --gold-deep: #93691f;
+    --line: #d7dfe1;
+    --muted: #5c6b70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; line-height: 1.5; }
+
+  .page-head { max-width: 760px; margin: 0 auto; padding: 56px 6vw 8px; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--teal-deep); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--teal-deep); display: inline-block; }
+  .page-head h1 {
+    font-family: 'Fraunces', serif; font-weight: 600;
+    font-size: clamp(1.7rem, 3.6vw, 2.2rem); color: var(--navy-deep); letter-spacing: -0.01em;
+  }
+  .page-head .lede { margin-top: 10px; font-size: 0.92rem; color: var(--muted); max-width: 58ch; }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 24px 6vw 80px; }
+
+  .progress-bar-wrap { background: var(--line); border-radius: 99px; height: 6px; margin-bottom: 8px; }
+  .progress-bar { background: var(--teal); height: 6px; border-radius: 99px; transition: width 0.4s ease; }
+  .progress-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 20px; text-align: right; }
+
+  .section-card {
+    background: var(--paper-raised); border: 1px solid var(--line); border-top: 3px solid var(--teal);
+    border-radius: 4px; padding: 26px 24px; margin-bottom: 22px;
+  }
+  .section-title { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 600; color: var(--navy-deep); margin-bottom: 4px; }
+  .section-subtitle { font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+  .instruction { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--gold-deep); font-weight: 600; margin-bottom: 14px; letter-spacing: 0.02em; }
+
+  .statement { margin-bottom: 14px; }
+  .statement input[type=range] { width: 100%; margin-top: 4px; accent-color: var(--teal); }
+  .score-display { min-width: 28px; font-weight: 700; color: var(--teal-deep); text-align: center; font-size: 0.95rem; }
+
+  .slider-row { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+  .slider-wrap { flex: 1; }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: #a9b6b8; margin-top: 2px; }
+
+  .total-display { text-align: right; font-size: 0.82rem; margin-top: 10px; color: var(--muted); }
+  .total-display span { font-weight: 700; color: var(--teal-deep); }
+  .total-display.over span { color: #b0413e; }
+
+  .btn {
+    display: block; width: 100%; padding: 13px; background: var(--teal); color: #fff; border: none;
+    border-radius: 3px; font-size: 0.92rem; font-weight: 600; cursor: pointer; margin-top: 10px;
+    letter-spacing: 0.01em; transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Results */
+  .results { display: none; background: var(--paper-raised); border: 1px solid var(--line); border-top: 3px solid var(--teal); border-radius: 4px; padding: 30px 26px; }
+  .results h2 { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 600; color: var(--navy-deep); margin-bottom: 6px; }
+  .results .subtitle { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
+
+  .role-card { border-radius: 4px; padding: 18px; margin-bottom: 14px; border: 1px solid var(--line); border-left: 4px solid; }
+  .role-card.first { background: #f2f8f7; border-left-color: var(--teal); }
+  .role-card.second { background: #fbf6ec; border-left-color: var(--gold); }
+  .role-card.third { background: #f4f6f7; border-left-color: var(--navy); }
+
+  .role-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .role-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.05rem; color: var(--navy-deep); }
+  .role-category { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 2px; }
+  .role-score { font-family: 'IBM Plex Mono', monospace; font-size: 1.3rem; font-weight: 600; color: var(--navy-deep); }
+  .role-desc { font-size: 0.85rem; line-height: 1.55; color: var(--muted); margin-bottom: 8px; }
+  .role-strengths { font-size: 0.8rem; color: var(--ink); }
+  .role-strengths strong { color: var(--navy-deep); }
+
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.03em; margin-top: 4px; }
+  .badge-1 { background: #dcefec; color: var(--teal-deep); }
+  .badge-2 { background: #f3e7cd; color: var(--gold-deep); }
+  .badge-3 { background: #dde3e6; color: var(--navy); }
+
+  .bar-chart { margin: 24px 0; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-label { width: 140px; font-size: 0.78rem; color: var(--muted); text-align: right; flex-shrink: 0; }
+  .bar-bg { flex: 1; background: var(--line); border-radius: 99px; height: 16px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; font-size: 0.68rem; font-weight: 700; color: #fff; }
+  .bar-val { width: 28px; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--navy-deep); }
+
+  .restart-btn {
+    margin-top: 20px; background: #fff; color: var(--navy-deep); border: 1px solid var(--line);
+    border-radius: 3px; padding: 12px; font-size: 0.88rem; font-weight: 600; cursor: pointer; width: 100%;
+    transition: all 0.2s;
+  }
+  .restart-btn:hover { background: var(--paper); border-color: var(--teal); }
+
+  .intro-card { background: var(--paper-raised); border: 1px solid var(--line); border-top: 3px solid var(--teal); border-radius: 4px; padding: 28px 26px; margin-bottom: 24px; }
+  .intro-card h2 { font-family: 'Fraunces', serif; font-weight: 600; color: var(--navy-deep); margin-bottom: 12px; font-size: 1.2rem; }
+  .intro-card p { font-size: 0.88rem; line-height: 1.6; color: var(--muted); margin-bottom: 10px; }
+  .roles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0; }
+  .role-chip { background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 8px 10px; font-size: 0.78rem; color: var(--muted); }
+  .role-chip strong { color: var(--navy-deep); display: block; font-weight: 600; }
+
+  input[type=text] { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 3px; font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+</style>
+<link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+<div id="sidebar-placeholder"></div>
+
+
+<div class="page-head">
+  <div class="eyebrow">MAGÍSTER EN GESTIÓN DE PERSONAS Y EFECTIVIDAD ORGANIZACIONAL · PROYECTO DE GRADO</div>
+  <h1>Roles de Equipo (Belbin)</h1>
+  <p class="lede">Descubre tu perfil de contribución y compártelo con tu equipo antes de iniciar el diagnóstico y trabajo de campo con la organización.</p>
+</div>
+
+<div class="container" id="app">
+
+  <!-- INTRO -->
+  <div class="intro-card" id="introCard">
+    <h2>¿Qué es el Test de Belbin y para qué te sirve en tu Proyecto de Grado?</h2>
+    <p>El Dr. Meredith Belbin identificó <strong>9 roles de equipo</strong> que describen los diferentes patrones de comportamiento que las personas adoptan cuando trabajan en grupo. Conocer tu rol —y el de tus compañeros/as de equipo— te ayuda a entender fortalezas y a repartir mejor las tareas del proyecto: desde el diagnóstico basado en evidencia y el levantamiento de información en la organización, hasta la redacción del informe y la preparación de la defensa.</p>
+    <p>Aplíquenlo <strong>todos los integrantes del equipo</strong> y comparen resultados: así podrán distribuir responsabilidades en el <em>Plan de Trabajo</em> según las fortalezas naturales de cada uno, y anticipar en qué momentos del proyecto (formulación del problema, trabajo de campo, análisis, cierre y defensa) conviene pedir apoyo a un compañero/a con un perfil complementario.</p>
+    <div class="roles-grid">
+      <div class="role-chip"><strong>🌱 Cerebro</strong>Creativo e innovador</div>
+      <div class="role-chip"><strong>🔍 Investigador</strong>Explora oportunidades</div>
+      <div class="role-chip"><strong>⚖️ Coordinador</strong>Clarifica metas</div>
+      <div class="role-chip"><strong>⚡ Impulsor</strong>Genera dinamismo</div>
+      <div class="role-chip"><strong>🧐 Monitor</strong>Analiza y evalúa</div>
+      <div class="role-chip"><strong>🤝 Cohesionador</strong>Une al equipo</div>
+      <div class="role-chip"><strong>⚙️ Implementador</strong>Lleva a la práctica</div>
+      <div class="role-chip"><strong>✅ Finalizador</strong>Perfecciona resultados</div>
+      <div class="role-chip"><strong>🛠️ Especialista</strong>Aporta conocimiento</div>
+    </div>
+    <p><strong>Instrucciones:</strong> El test tiene <strong>7 secciones</strong>. En cada sección hay 8 frases. Debes repartir <strong>exactamente 10 puntos</strong> entre las frases según cuánto te identifiques con cada una. Puedes dar todos los puntos a una sola frase o distribuirlos como quieras, siempre sumando 10.</p>
+    <button class="btn" onclick="startTest()">Comenzar Test →</button>
+  </div>
+
+  <!-- TEST -->
+  <div id="testArea" style="display:none">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">Sección 1 de 7</div>
+    <div id="sectionsContainer"></div>
+    <button class="btn" id="nextBtn" onclick="nextSection()" disabled>Siguiente sección →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="resultsArea"></div>
+
+</div>
+
+<script>
+// ============================================================
+// BELBIN TEST DATA — 7 sections × 8 statements
+// Each statement maps to a role code
+// Roles: CE=Cerebro, IR=Investigador, CO=Coordinador, IM=Impulsor,
+//        ME=Monitor, CH=Cohesionador, IM2=Implementador, FI=Finalizador, ES=Especialista
+// ============================================================
+
+const ROLES = {
+  CE: { name: 'Cerebro', cat: 'Intelectual', color: '#553c9a', desc: 'Genera ideas originales y enfoques creativos. Resuelve problemas difíciles con soluciones innovadoras y poco convencionales.', strengths: 'Creatividad · Imaginación · Resolución de problemas complejos' },
+  IR: { name: 'Investigador de Recursos', cat: 'Social', color: '#2b6cb0', desc: 'Explora oportunidades y desarrolla contactos. Entusiasta, comunicativo y emprendedor, introduce ideas externas al equipo.', strengths: 'Networking · Entusiasmo · Exploración de ideas' },
+  CO: { name: 'Coordinador', cat: 'Social', color: '#276749', desc: 'Clarifica las metas del grupo y promueve la toma de decisiones. Maduro, seguro de sí mismo y delegador eficaz.', strengths: 'Liderazgo · Delegación · Visión de conjunto' },
+  IM: { name: 'Impulsor', cat: 'Acción', color: '#c05621', desc: 'Desafía al equipo y genera dinamismo para superar obstáculos. Enérgico, asertivo y orientado a los resultados.', strengths: 'Dinamismo · Manejo de presión · Orientación a resultados' },
+  ME: { name: 'Monitor Evaluador', cat: 'Intelectual', color: '#285e61', desc: 'Analiza las opciones con objetividad y evalúa con juicio certero. Estratégico, perspicaz y poco influenciable por emociones.', strengths: 'Análisis crítico · Objetividad · Toma de decisiones' },
+  CH: { name: 'Cohesionador', cat: 'Social', color: '#702459', desc: 'Escucha, construye y evita la fricción entre miembros. Diplomático, perceptivo y orientado a la armonía del grupo.', strengths: 'Empatía · Escucha activa · Diplomacia' },
+  IP: { name: 'Implementador', cat: 'Acción', color: '#22543d', desc: 'Transforma ideas y decisiones en acciones concretas y prácticas. Disciplinado, confiable y eficiente.', strengths: 'Organización · Disciplina · Ejecución práctica' },
+  FI: { name: 'Finalizador', cat: 'Acción', color: '#744210', desc: 'Se asegura de que nada se deje sin terminar. Perfeccionista, concienzudo y ansioso por cumplir plazos con calidad.', strengths: 'Atención al detalle · Perseverancia · Cumplimiento de plazos' },
+  ES: { name: 'Especialista', cat: 'Intelectual', color: '#2c5282', desc: 'Aporta conocimiento profundo en áreas clave. Dedicado, independiente y con gran dominio de su especialidad.', strengths: 'Conocimiento técnico · Profesionalismo · Enfoque especializado' }
+};
+
+// Cómo aportar este rol en las distintas etapas del Proyecto de Grado (MGPE)
+const ROLE_APPLICATIONS = {
+  CE: 'En la formulación del problema y el marco teórico: propone enfoques poco obvios para abordar el diagnóstico y ayuda a que el objetivo general no se quede en lo genérico.',
+  IR: 'En el vínculo con la organización: mantiene el contacto con la contraparte, gestiona accesos para el trabajo de campo y trae referencias externas útiles para el diagnóstico.',
+  CO: 'En la gestión del equipo: ordena la conversación con la organización cliente, clarifica qué se espera de cada objetivo específico y facilita acuerdos cuando hay visiones distintas.',
+  IM: 'En los momentos de estancamiento: empuja al equipo a decidir y avanzar cuando el proyecto se dispersa entre varias posibles líneas de intervención, evitando que se pierda tiempo antes de inscribir el Formulario de Solicitud.',
+  ME: 'En la revisión crítica: contrasta el diagnóstico con la evidencia real, detecta cuando un objetivo no está bien acotado en espacio o tiempo y evita conclusiones apresuradas.',
+  CH: 'En la relación con la organización y dentro del equipo: cuida el vínculo con la contraparte durante las entrevistas y trabajo de campo, y ayuda a resolver tensiones internas del grupo.',
+  IP: 'En la ejecución del Plan de Trabajo: transforma los acuerdos en tareas concretas, cronograma y responsables, y se asegura de que el trabajo de campo se ejecute como se planificó.',
+  FI: 'En el cierre del informe: revisa que la redacción, las citas y el cumplimiento de la rúbrica estén completos antes de cada entrega, y cuida los plazos de inscripción y presentación.',
+  ES: 'En temas técnicos específicos: aporta profundidad cuando el diagnóstico requiere dominio experto (por ejemplo, un instrumento de medición o un marco normativo particular del sector de la organización).'
+};
+
+const SECTIONS = [
+  {
+    title: 'Sección I',
+    subtitle: 'Lo que creo que puedo aportar a un equipo de trabajo:',
+    items: [
+      { text: 'Creo que puedo detectar rápidamente las oportunidades y aprovecharlas.', role: 'IR' },
+      { text: 'Puedo trabajar bien con personas de muy distintos tipos.', role: 'CH' },
+      { text: 'Generar ideas es una de mis fortalezas naturales.', role: 'CE' },
+      { text: 'Soy capaz de identificar personas útiles para el equipo y motivarlas a participar.', role: 'CO' },
+      { text: 'Mi capacidad de seguir adelante está relacionada con mi eficacia personal.', role: 'IP' },
+      { text: 'Estoy dispuesto a enfrentar impopularidad temporal si eso lleva a resultados valiosos.', role: 'IM' },
+      { text: 'Suelo detectar qué es factible y qué funcionará en la práctica.', role: 'ME' },
+      { text: 'Puedo ofrecer una razón válida para cursos de acción alternativos sin generar prejuicios.', role: 'FI' }
+    ]
+  },
+  {
+    title: 'Sección II',
+    subtitle: 'Mis posibles debilidades en el trabajo en equipo son:',
+    items: [
+      { text: 'Me siento incómodo en reuniones poco estructuradas y mal organizadas.', role: 'IP' },
+      { text: 'Tiendo a ser demasiado generoso con los que tienen puntos de vista válidos pero que no han sido expuestos.', role: 'CO' },
+      { text: 'Tengo tendencia a hablar demasiado una vez que el grupo llega a temas que me interesan.', role: 'IR' },
+      { text: 'Mi visión objetiva hace difícil que me una con entusiasmo a los colegas.', role: 'ME' },
+      { text: 'A veces soy percibido como autoritario o prepotente cuando hay algo que necesita hacerse.', role: 'IM' },
+      { text: 'Me resulta difícil asumir el liderazgo quizás porque soy demasiado sensible a la atmósfera del grupo.', role: 'CH' },
+      { text: 'Tiendo a soñar con grandes ideas y perder el hilo de lo que ocurre a mi alrededor.', role: 'CE' },
+      { text: 'Mis colegas tienden a verme como alguien que se preocupa innecesariamente por los detalles.', role: 'FI' }
+    ]
+  },
+  {
+    title: 'Sección III',
+    subtitle: 'Cuando estoy involucrado en un proyecto con otras personas:',
+    items: [
+      { text: 'Tengo tendencia a influir en las personas sin presionarlas.', role: 'CO' },
+      { text: 'Mi vigilancia general evita errores por descuido y omisiones.', role: 'FI' },
+      { text: 'Estoy dispuesto a presionar para que se tomen acciones cuando la reunión parece estar perdiendo de vista el objetivo principal.', role: 'IM' },
+      { text: 'Se puede confiar en que aportaré algo original.', role: 'CE' },
+      { text: 'Siempre estoy dispuesto a apoyar una buena sugerencia en el interés del grupo.', role: 'CH' },
+      { text: 'Soy muy bueno para seguir las últimas ideas y desarrollos.', role: 'IR' },
+      { text: 'Creo que mi capacidad de juicio puede ser valiosa para tomar la decisión correcta.', role: 'ME' },
+      { text: 'Se puede confiar en mí para organizar el trabajo esencial.', role: 'IP' }
+    ]
+  },
+  {
+    title: 'Sección IV',
+    subtitle: 'Mi enfoque característico hacia el trabajo en grupo es:',
+    items: [
+      { text: 'Tengo un interés tranquilo en conocer mejor a mis colegas.', role: 'CH' },
+      { text: 'No soy renuente a desafiar los puntos de vista de otros ni a mantener una postura minoritaria.', role: 'ME' },
+      { text: 'Generalmente puedo encontrar una línea de argumento para refutar propuestas sin fundamento.', role: 'IM' },
+      { text: 'Creo que tengo talento para hacer que las cosas funcionen una vez que el plan está en marcha.', role: 'IP' },
+      { text: 'Tengo tendencia a evitar lo obvio y salir con algo inesperado.', role: 'CE' },
+      { text: 'Aporto perfección a cualquier trabajo de equipo que emprendo.', role: 'FI' },
+      { text: 'Estoy dispuesto a hacer uso de los contactos fuera del grupo mismo.', role: 'IR' },
+      { text: 'Aunque me interesan todos los puntos de vista, no dudo cuando hay que tomar una decisión.', role: 'CO' }
+    ]
+  },
+  {
+    title: 'Sección V',
+    subtitle: 'Obtengo satisfacción del trabajo porque:',
+    items: [
+      { text: 'Me gusta analizar situaciones y sopesar todas las opciones posibles.', role: 'ME' },
+      { text: 'Me interesa encontrar soluciones prácticas a los problemas.', role: 'IP' },
+      { text: 'Me gusta sentir que estoy fomentando buenas relaciones de trabajo.', role: 'CH' },
+      { text: 'Puedo tener una fuerte influencia sobre las decisiones.', role: 'IM' },
+      { text: 'Tengo la oportunidad de conocer gente que puede ofrecerme algo nuevo.', role: 'IR' },
+      { text: 'Puedo conseguir que la gente esté de acuerdo con un curso de acción necesario.', role: 'CO' },
+      { text: 'Siento que puedo dedicar toda mi atención donde creo que puedo ser más útil.', role: 'ES' },
+      { text: 'Me gusta encontrar el área en la que necesita estimularse mi imaginación.', role: 'CE' }
+    ]
+  },
+  {
+    title: 'Sección VI',
+    subtitle: 'Si de repente me asignaran una tarea difícil con tiempo limitado y personas desconocidas:',
+    items: [
+      { text: 'Me sentiría como si necesitara un rincón para pensar antes de desarrollar una línea de acción.', role: 'CE' },
+      { text: 'Estaría dispuesto a trabajar con la persona que mostrara el enfoque más positivo.', role: 'CH' },
+      { text: 'Encontraría una manera de reducir el tamaño de la tarea identificando la mayor contribución de cada persona.', role: 'CO' },
+      { text: 'Mi sentido natural de la urgencia ayudaría a garantizar que no nos quedáramos atrás.', role: 'IM' },
+      { text: 'Creo que mantendría la calma y mi capacidad para pensar objetivamente.', role: 'ME' },
+      { text: 'Mantendría un propósito constante a pesar de las presiones.', role: 'FI' },
+      { text: 'Estaría dispuesto a asumir el liderazgo si sentiera que el grupo no avanzaba.', role: 'IP' },
+      { text: 'Abriría discusiones con el fin de estimular nuevos pensamientos y conseguir que algo se moviera.', role: 'IR' }
+    ]
+  },
+  {
+    title: 'Sección VII',
+    subtitle: 'Los problemas a los que me enfrento al trabajar en grupos son:',
+    items: [
+      { text: 'Tiendo a mostrar mi impaciencia con aquellos que obstruyen el progreso.', role: 'IM' },
+      { text: 'Otros pueden criticarme por ser demasiado analítico y poco intuitivo.', role: 'ME' },
+      { text: 'Mi deseo de que el trabajo se haga bien puede retrasar los resultados.', role: 'FI' },
+      { text: 'Me aburro con relativa facilidad y confío en que uno o dos miembros me estimulen.', role: 'IR' },
+      { text: 'Me resulta difícil empezar a menos que los objetivos estén claros.', role: 'CE' },
+      { text: 'A veces soy torpe al explicar y aclarar puntos complejos que se me ocurren.', role: 'ES' },
+      { text: 'Soy consciente de que pido a los demás aquello que yo mismo no puedo hacer.', role: 'CO' },
+      { text: 'Me resisto a presionar cuando hay oposición real a las cosas que estoy convencido que son correctas.', role: 'CH' }
+    ]
+  }
+];
+
+// ---- State ----
+let currentSection = 0;
+let scores = []; // scores[section][item] = value
+
+function startTest() {
+  document.getElementById('introCard').style.display = 'none';
+  document.getElementById('testArea').style.display = 'block';
+  renderSection(0);
+}
+
+function renderSection(idx) {
+  if (!scores[idx]) scores[idx] = new Array(8).fill(0);
+  const sec = SECTIONS[idx];
+  const container = document.getElementById('sectionsContainer');
+  container.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'section-card';
+  card.innerHTML = `
+    <div class="section-title">${sec.title}</div>
+    <div class="section-subtitle">${sec.subtitle}</div>
+    <div class="instruction">⚠️ Reparte exactamente 10 puntos entre las 8 frases (suma actual: <span id="sumDisplay">0</span>/10)</div>
+    <div id="statementsDiv"></div>
+    <div class="total-display" id="totalDisplay">Suma: <span id="totalSpan">0</span> / 10</div>
+  `;
+  container.appendChild(card);
+
+  const stDiv = card.querySelector('#statementsDiv');
+  sec.items.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.className = 'statement';
+    row.innerHTML = `
+      <div style="font-size:0.88rem;line-height:1.45;color:#2d3748;margin-bottom:4px;">
+        <span style="font-weight:700;color:#145f59;">${String.fromCharCode(65+i)}.</span> ${item.text}
+      </div>
+      <div class="slider-row">
+        <span style="font-size:0.75rem;color:#a0aec0;width:14px;text-align:center;">0</span>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="10" value="${scores[idx][i]}" id="sl_${i}" oninput="updateScore(${i}, this.value)">
+          <div class="slider-labels"><span>Poco</span><span>Mucho</span></div>
+        </div>
+        <div class="score-display" id="sc_${i}">${scores[idx][i]}</div>
+      </div>
+    `;
+    stDiv.appendChild(row);
+  });
+
+  updateTotals();
+  updateProgress();
+}
+
+function updateScore(i, val) {
+  scores[currentSection][i] = parseInt(val);
+  document.getElementById('sc_' + i).textContent = val;
+  updateTotals();
+}
+
+function updateTotals() {
+  const total = scores[currentSection].reduce((a, b) => a + b, 0);
+  const s = document.getElementById('sumDisplay');
+  const t = document.getElementById('totalSpan');
+  const td = document.getElementById('totalDisplay');
+  if (s) s.textContent = total;
+  if (t) t.textContent = total;
+  if (td) td.className = 'total-display' + (total !== 10 ? ' over' : '');
+  document.getElementById('nextBtn').disabled = (total !== 10);
+  if (currentSection === SECTIONS.length - 1) {
+    document.getElementById('nextBtn').textContent = total === 10 ? 'Ver mis resultados 🎯' : 'Siguiente sección →';
+  }
+}
+
+function updateProgress() {
+  const pct = ((currentSection) / SECTIONS.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Sección ${currentSection + 1} de ${SECTIONS.length}`;
+  const btn = document.getElementById('nextBtn');
+  btn.textContent = currentSection === SECTIONS.length - 1 ? 'Ver mis resultados 🎯' : 'Siguiente sección →';
+}
+
+function nextSection() {
+  if (currentSection < SECTIONS.length - 1) {
+    currentSection++;
+    renderSection(currentSection);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  // Tally scores per role
+  const totals = {};
+  Object.keys(ROLES).forEach(k => totals[k] = 0);
+  SECTIONS.forEach((sec, si) => {
+    sec.items.forEach((item, ii) => {
+      totals[item.role] = (totals[item.role] || 0) + scores[si][ii];
+    });
+  });
+
+  // Sort
+  const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  const maxScore = sorted[0][1] || 1;
+
+  document.getElementById('testArea').style.display = 'none';
+  const res = document.getElementById('resultsArea');
+  res.style.display = 'block';
+
+  const top3 = sorted.slice(0, 3);
+  const badges = ['🥇 Rol Principal', '🥈 Rol Secundario', '🥉 Tercer Rol'];
+  const cardClass = ['first', 'second', 'third'];
+  const badgeClass = ['badge-1', 'badge-2', 'badge-3'];
+
+  let html = `
+    <h2>🎯 Tu Perfil de Roles Belbin</h2>
+    <p class="subtitle">Basado en tus respuestas, estos son tus 3 roles más predominantes:</p>
+  `;
+
+  top3.forEach(([code, score], idx) => {
+    const r = ROLES[code];
+    html += `
+      <div class="role-card ${cardClass[idx]}">
+        <div class="role-header">
+          <div>
+            <span class="badge ${badgeClass[idx]}">${badges[idx]}</span>
+            <div class="role-name" style="margin-top:6px;">${r.name}</div>
+            <div class="role-category">Categoría: ${r.cat}</div>
+          </div>
+          <div class="role-score">${score} pts</div>
+        </div>
+        <div class="role-desc">${r.desc}</div>
+        <div class="role-strengths"><strong>Fortalezas:</strong> ${r.strengths}</div>
+      </div>
+    `;
+  });
+
+  // Bar chart all roles
+  html += `<div style="margin-top:24px;font-weight:700;color:#2d3748;margin-bottom:12px;">📊 Puntuación en todos los roles:</div><div class="bar-chart">`;
+  sorted.forEach(([code, score]) => {
+    const r = ROLES[code];
+    const pct = Math.round((score / (maxScore || 1)) * 100);
+    const colors = { CE:'#553c9a', IR:'#2b6cb0', CO:'#276749', IM:'#c05621', ME:'#285e61', CH:'#702459', IP:'#22543d', FI:'#744210', ES:'#2c5282' };
+    html += `
+      <div class="bar-row">
+        <div class="bar-label">${r.name}</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${colors[code] || '#1c7c74'}">${score > 0 ? score : ''}</div></div>
+        <div class="bar-val">${score}</div>
+      </div>
+    `;
+  });
+  html += '</div>';
+
+  // Aplicación práctica de los roles principales al Proyecto de Grado
+  html += `<div style="margin-top:24px;font-weight:700;color:#2d3748;margin-bottom:10px;">🧭 Cómo aportar esto en tu Proyecto de Grado:</div>`;
+  top3.forEach(([code, score]) => {
+    const r = ROLES[code];
+    html += `
+      <div style="background:#f7fafc;border-radius:4px;padding:12px 16px;margin-bottom:8px;border-left:4px solid ${r.color || '#1c7c74'};">
+        <span style="font-weight:700;font-size:0.85rem;color:#2d3748;">${r.name}:</span>
+        <span style="font-size:0.85rem;color:#4a5568;"> ${ROLE_APPLICATIONS[code]}</span>
+      </div>
+    `;
+  });
+  html += `<p style="font-size:0.8rem;color:#718096;margin:10px 0 0;">💡 Comparen sus resultados como equipo: si dos roles quedan cubiertos por varios integrantes y otros quedan vacíos, conversen quién puede pedir apoyo puntual en esa dimensión durante el trabajo de campo y la redacción del informe.</p>`;
+
+  // Roles menos naturales (los 2 de menor puntaje)
+  const bottom2 = sorted.slice(-2).reverse();
+  html += `<div style="margin-top:24px;font-weight:700;color:#2d3748;margin-bottom:10px;">🔻 Tus roles menos naturales:</div>`;
+  html += `<p style="font-size:0.82rem;color:#718096;margin-bottom:12px;">No es que no puedas ejercerlos, sino que probablemente no son tu forma más natural de contribuir. Es útil saberlo para pedir apoyo en esa dimensión al equipo.</p>`;
+  bottom2.forEach(([code, score]) => {
+    const r = ROLES[code];
+    html += `
+      <div style="background:#f7fafc;border-radius:10px;padding:12px 16px;margin-bottom:8px;border-left:4px solid #cbd5e0;">
+        <span style="font-weight:700;font-size:0.9rem;color:#4a5568;">${r.name}</span>
+        <span style="float:right;color:#a0aec0;font-weight:700;">${score} pts</span>
+      </div>
+    `;
+  });
+
+  // Guardar resultados para poder armar el correo más abajo
+  lastResults = { sorted, top3, bottom2 };
+
+  html += `
+    <div style="margin-top:26px;padding-top:22px;border-top:1px solid var(--line);">
+      <div style="font-weight:700;color:#2d3748;margin-bottom:8px;">📧 Recibir estos resultados por correo</div>
+      <p style="font-size:0.82rem;color:#718096;margin-bottom:12px;">Ingresa tu correo y se abrirá tu programa de correo con un mensaje ya redactado, listo para que lo envíes a ti mismo/a.</p>
+      <input type="email" id="resultEmail" placeholder="tu.correo@ejemplo.com" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:3px;font-size:0.9rem;font-family:'Inter',sans-serif;margin-bottom:10px;">
+      <button class="btn" style="margin-top:0;" onclick="sendResultsByEmail()">Enviarme mis resultados →</button>
+      <div id="emailStatus" style="font-size:0.78rem;color:#b0413e;margin-top:8px;"></div>
+    </div>
+  `;
+
+  html += `<button class="restart-btn" onclick="restartTest()">↩ Volver a hacer el test</button>`;
+  res.innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+let lastResults = null;
+
+function sendResultsByEmail() {
+  const emailInput = document.getElementById('resultEmail');
+  const statusEl = document.getElementById('emailStatus');
+  const email = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    statusEl.textContent = '⚠️ Ingresa un correo válido.';
+    emailInput.style.borderColor = '#b0413e';
+    return;
+  }
+  emailInput.style.borderColor = 'var(--line)';
+  statusEl.style.color = '#5c6b70';
+  statusEl.textContent = 'Abriendo tu programa de correo...';
+
+  const { sorted, top3, bottom2 } = lastResults;
+
+  let body = 'RESULTADOS - TEST DE ROLES DE EQUIPO (BELBIN)\n';
+  body += 'Magíster en Gestión de Personas y Efectividad Organizacional · Proyecto de Grado\n\n';
+  body += 'TUS 3 ROLES PRINCIPALES:\n';
+  top3.forEach(([code, score], idx) => {
+    const r = ROLES[code];
+    body += `${idx + 1}. ${r.name} (${score} pts) — ${r.desc}\n`;
+  });
+  body += '\nCÓMO APORTAR ESTO EN TU PROYECTO DE GRADO:\n';
+  top3.forEach(([code]) => {
+    body += `- ${ROLES[code].name}: ${ROLE_APPLICATIONS[code]}\n`;
+  });
+  body += '\nTUS ROLES MENOS NATURALES:\n';
+  bottom2.forEach(([code, score]) => {
+    body += `- ${ROLES[code].name} (${score} pts)\n`;
+  });
+  body += '\nPUNTAJE COMPLETO:\n';
+  sorted.forEach(([code, score]) => {
+    body += `${ROLES[code].name}: ${score} pts\n`;
+  });
+
+  const subject = 'Mis resultados - Test de Roles de Equipo (Belbin)';
+  const mailtoLink = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoLink;
+}
+
+function restartTest() {
+  currentSection = 0;
+  scores = [];
+  lastResults = null;
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('introCard').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+<script src="sidebar.js"></script>
+</body>
+</html>

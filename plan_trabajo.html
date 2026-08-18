@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Trabajo · Proyecto de Grado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #101b22; --navy: #123a4d; --navy-deep: #0c2733;
+    --paper: #f4f6f5; --paper-raised: #ffffff;
+    --teal: #1c7c74; --teal-deep: #145f59;
+    --gold: #b8862b; --gold-deep: #93691f;
+    --line: #d7dfe1; --muted: #5c6b70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; line-height: 1.5; }
+
+  .page-head { max-width: 900px; margin: 0 auto; padding: 56px 6vw 8px; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-deep); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--teal-deep); display: inline-block; }
+  .page-head h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.7rem, 3.6vw, 2.2rem); color: var(--navy-deep); letter-spacing: -0.01em; }
+  .page-head .lede { margin-top: 10px; font-size: 0.92rem; color: var(--muted); max-width: 64ch; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 6vw 80px; }
+
+  .intro-card { background: var(--paper-raised); border: 1px solid var(--line); border-top: 3px solid var(--teal); border-radius: 4px; padding: 26px 24px; margin-bottom: 22px; }
+  .intro-card p { font-size: 0.9rem; line-height: 1.65; color: var(--muted); margin-bottom: 10px; }
+  .intro-card p:last-child { margin-bottom: 0; }
+  .intro-card strong { color: var(--navy-deep); }
+
+  /* Bloque de descarga destacado */
+  .download-card {
+    background: linear-gradient(135deg, var(--navy-deep), var(--navy));
+    border-radius: 6px; padding: 30px 28px; margin-bottom: 30px;
+    display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  }
+  .download-icon { flex-shrink: 0; width: 54px; height: 54px; border-radius: 8px; background: rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; }
+  .download-icon svg { width: 28px; height: 28px; color: #fff; }
+  .download-body { flex: 1; min-width: 220px; }
+  .download-body .dl-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: #a9c9c5; margin-bottom: 4px; }
+  .download-body .dl-title { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .download-body .dl-desc { font-size: 0.82rem; color: #cfe0dd; }
+  .download-btn {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; color: var(--navy-deep); font-weight: 700; font-size: 0.88rem;
+    padding: 13px 22px; border-radius: 4px; text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 30px 0 14px; }
+
+  .guide-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 4px; padding: 22px 24px; margin-bottom: 14px; }
+  .guide-card.setup { border-left: 4px solid var(--gold); }
+  .guide-card .g-title { font-family: 'Fraunces', serif; font-size: 1.02rem; font-weight: 600; color: var(--navy-deep); margin-bottom: 4px; }
+  .guide-card .g-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.55; }
+  .guide-card .g-tip { margin-top: 10px; font-size: 0.8rem; color: var(--teal-deep); background: #f2f8f7; border-radius: 3px; padding: 8px 12px; }
+
+  .month-guide { border-left: 4px solid var(--teal); display:flex; gap: 16px; align-items:flex-start; }
+  .month-num { flex-shrink:0; width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color:#fff; font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:1rem; display:flex; align-items:center; justify-content:center; }
+  .month-fase { font-family:'IBM Plex Mono', monospace; font-size:0.66rem; color: var(--teal-deep); font-weight:700; letter-spacing:0.04em; text-transform:uppercase; margin-bottom:3px; }
+
+  .footnote { margin-top: 26px; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; }
+</style>
+<link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+<div id="sidebar-placeholder"></div>
+
+<div class="page-head">
+  <div class="eyebrow">PROYECTO DE GRADO · GUÍA DE EQUIPO</div>
+  <h1>Plan de Trabajo</h1>
+  <p class="lede">Cómo organizar las tareas de tu equipo mes a mes, siguiendo la misma estructura de la Ficha de Avance del proyecto de grado.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-card">
+    <p>El Plan de Trabajo es el documento donde el equipo traduce los 5 meses de la Ficha de Avance en <strong>tareas concretas, con responsable y fecha</strong>. No reemplaza la Ficha Técnica oficial que completan con su profesor guía — es la herramienta interna del equipo para no perder de vista qué hay que hacer, quién lo hace y para cuándo.</p>
+    <p>Abajo tienes la plantilla en Excel para descargar, y una guía de qué poner en cada mes antes de empezar a llenarla.</p>
+  </div>
+
+  <div class="download-card">
+    <div class="download-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <div class="download-body">
+      <div class="dl-label">Plantilla · Excel (.xlsx)</div>
+      <div class="dl-title">Plan de Trabajo — Proyecto de Grado</div>
+      <div class="dl-desc">Incluye una hoja de guía y la tabla lista para completar, mes a mes, con lista desplegable de estado.</div>
+    </div>
+    <a class="download-btn" href="plan_trabajo_plantilla.xlsx" download>
+      ⬇ Descargar plantilla
+    </a>
+  </div>
+
+  <div class="section-label">Antes de empezar</div>
+  <div class="guide-card setup">
+    <div class="g-title">Datos generales</div>
+    <div class="g-desc">En la pestaña "Plan de Trabajo" de la plantilla, completen el nombre del proyecto, el profesor guía, los integrantes del equipo, y las fechas de inicio y término. Estos datos deben calzar con lo inscrito en el Formulario de Solicitud de Inscripción de Trabajo de Grado.</div>
+  </div>
+
+  <div class="section-label">Guía mes a mes</div>
+
+  <div class="guide-card month-guide">
+    <div class="month-num">1</div>
+    <div>
+      <div class="month-fase">Mes 1 · Diagnóstico</div>
+      <div class="g-title">Definir el alcance y los objetivos generales</div>
+      <div class="g-desc">Tareas típicas de este mes: reuniones de acercamiento con la organización, delimitación espacial y temporal del problema, primer borrador de los objetivos general y específicos, y armado del Gantt inicial.</div>
+      <div class="g-tip">💡 Sean específicos al escribir cada tarea: "agendar 3 entrevistas con jefaturas" es más útil que "hacer diagnóstico".</div>
+    </div>
+  </div>
+
+  <div class="guide-card month-guide">
+    <div class="month-num">2</div>
+    <div>
+      <div class="month-fase">Mes 2 · Desarrollo</div>
+      <div class="g-title">Análisis estratégico y recolección de información</div>
+      <div class="g-desc">Tareas típicas: aplicación de instrumentos (encuestas, entrevistas, revisión documental), coordinación de accesos con la organización, y avance del marco teórico que sustenta el diagnóstico.</div>
+      <div class="g-tip">💡 Este suele ser el mes donde aparecen las primeras fricciones de equipo — revisen también el Contrato de Equipo si surge algún desacuerdo.</div>
+    </div>
+  </div>
+
+  <div class="guide-card month-guide">
+    <div class="month-num">3</div>
+    <div>
+      <div class="month-fase">Mes 3 · Desarrollo</div>
+      <div class="g-title">Continuación del trabajo de campo y análisis</div>
+      <div class="g-desc">Tareas típicas: cierre de la recolección de datos, sistematización de resultados, primeras conclusiones preliminares del diagnóstico, y ajustes a la metodología si fue necesario.</div>
+      <div class="g-tip">💡 Si van atrasados respecto al Gantt inicial, este es el mes para replanificar antes de que se acumule al final.</div>
+    </div>
+  </div>
+
+  <div class="guide-card month-guide">
+    <div class="month-num">4</div>
+    <div>
+      <div class="month-fase">Mes 4 · Resultados y Conclusiones</div>
+      <div class="g-title">Evaluar el proyecto y su beneficio para la organización</div>
+      <div class="g-desc">Tareas típicas: análisis final de los resultados, redacción de conclusiones, elaboración de recomendaciones para la organización, y borrador de los capítulos de resultados y discusión del informe.</div>
+      <div class="g-tip">💡 Empiecen en paralelo a preparar los insumos del informe final — no dejen todo para el mes 5.</div>
+    </div>
+  </div>
+
+  <div class="guide-card month-guide">
+    <div class="month-num">5</div>
+    <div>
+      <div class="month-fase">Mes 5 · Preparación Informes y Presentación</div>
+      <div class="g-title">Cierre del documento escrito y la defensa</div>
+      <div class="g-desc">Tareas típicas: revisión final del documento contra la rúbrica, elaboración de la presentación, ensayo de la defensa como equipo, y cumplimiento del plazo máximo de examen de grado.</div>
+      <div class="g-tip">💡 Repartan quién presenta qué en la defensa y ensayen las preguntas esperadas con anticipación.</div>
+    </div>
+  </div>
+
+  <p class="footnote">¿Ya tienen la plantilla completa? Guárdenla en la carpeta compartida del equipo y revísenla juntos en cada reunión — no solo al final de cada mes.</p>
+
+</div>
+<script src="sidebar.js"></script>
+</body>
+</html>
