@@ -125,7 +125,7 @@
 
 
 <div class="page-head">
-  <div class="eyebrow">MAGÍSTER EN GESTIÓN DE PERSONAS Y EFECTIVIDAD ORGANIZACIONAL · PROYECTO DE GRADO</div>
+  <div class="eyebrow">FACULTAD DE ECONOMÍA, NEGOCIOS Y GOBIERNO · PROYECTO DE GRADO</div>
   <h1>Roles de Equipo (Belbin)</h1>
   <p class="lede">Descubre tu perfil de contribución y compártelo con tu equipo antes de iniciar el diagnóstico y trabajo de campo con la organización.</p>
 </div>
@@ -143,7 +143,7 @@
       <div class="role-chip"><strong>⚖️ Coordinador</strong>Clarifica metas</div>
       <div class="role-chip"><strong>⚡ Impulsor</strong>Genera dinamismo</div>
       <div class="role-chip"><strong>🧐 Monitor</strong>Analiza y evalúa</div>
-      <div class="role-chip"><strong>🤝 Cohesionador</strong>Une al equipo</div>
+      <div class="role-chip"><strong>🤝 Trabajador de Equipo</strong>Une al equipo</div>
       <div class="role-chip"><strong>⚙️ Implementador</strong>Lleva a la práctica</div>
       <div class="role-chip"><strong>✅ Finalizador</strong>Perfecciona resultados</div>
       <div class="role-chip"><strong>🛠️ Especialista</strong>Aporta conocimiento</div>
@@ -170,22 +170,22 @@
 // BELBIN TEST DATA — 7 sections × 8 statements
 // Each statement maps to a role code
 // Roles: CE=Cerebro, IR=Investigador, CO=Coordinador, IM=Impulsor,
-//        ME=Monitor, CH=Cohesionador, IM2=Implementador, FI=Finalizador, ES=Especialista
+//        ME=Monitor, CH=Trabajador de Equipo, IM2=Implementador, FI=Finalizador, ES=Especialista
 // ============================================================
 
 const ROLES = {
-  CE: { name: 'Cerebro', cat: 'Intelectual', color: '#553c9a', desc: 'Genera ideas originales y enfoques creativos. Resuelve problemas difíciles con soluciones innovadoras y poco convencionales.', strengths: 'Creatividad · Imaginación · Resolución de problemas complejos' },
-  IR: { name: 'Investigador de Recursos', cat: 'Social', color: '#2b6cb0', desc: 'Explora oportunidades y desarrolla contactos. Entusiasta, comunicativo y emprendedor, introduce ideas externas al equipo.', strengths: 'Networking · Entusiasmo · Exploración de ideas' },
-  CO: { name: 'Coordinador', cat: 'Social', color: '#276749', desc: 'Clarifica las metas del grupo y promueve la toma de decisiones. Maduro, seguro de sí mismo y delegador eficaz.', strengths: 'Liderazgo · Delegación · Visión de conjunto' },
-  IM: { name: 'Impulsor', cat: 'Acción', color: '#c05621', desc: 'Desafía al equipo y genera dinamismo para superar obstáculos. Enérgico, asertivo y orientado a los resultados.', strengths: 'Dinamismo · Manejo de presión · Orientación a resultados' },
-  ME: { name: 'Monitor Evaluador', cat: 'Intelectual', color: '#285e61', desc: 'Analiza las opciones con objetividad y evalúa con juicio certero. Estratégico, perspicaz y poco influenciable por emociones.', strengths: 'Análisis crítico · Objetividad · Toma de decisiones' },
-  CH: { name: 'Cohesionador', cat: 'Social', color: '#702459', desc: 'Escucha, construye y evita la fricción entre miembros. Diplomático, perceptivo y orientado a la armonía del grupo.', strengths: 'Empatía · Escucha activa · Diplomacia' },
-  IP: { name: 'Implementador', cat: 'Acción', color: '#22543d', desc: 'Transforma ideas y decisiones en acciones concretas y prácticas. Disciplinado, confiable y eficiente.', strengths: 'Organización · Disciplina · Ejecución práctica' },
-  FI: { name: 'Finalizador', cat: 'Acción', color: '#744210', desc: 'Se asegura de que nada se deje sin terminar. Perfeccionista, concienzudo y ansioso por cumplir plazos con calidad.', strengths: 'Atención al detalle · Perseverancia · Cumplimiento de plazos' },
-  ES: { name: 'Especialista', cat: 'Intelectual', color: '#2c5282', desc: 'Aporta conocimiento profundo en áreas clave. Dedicado, independiente y con gran dominio de su especialidad.', strengths: 'Conocimiento técnico · Profesionalismo · Enfoque especializado' }
+  CE: { name: 'Cerebro', cat: 'Intelectual', color: '#553c9a', desc: 'Genera ideas originales y enfoques creativos. Resuelve problemas difíciles con soluciones innovadoras y poco convencionales.', strengths: 'Creatividad · Imaginación · Resolución de problemas complejos', weak: 'Puede ignorar detalles y estar demasiado absorto como para comunicarse eficazmente.' },
+  IR: { name: 'Investigador de Recursos', cat: 'Social', color: '#2b6cb0', desc: 'Explora oportunidades y desarrolla contactos. Entusiasta, comunicativo y emprendedor, introduce ideas externas al equipo.', strengths: 'Networking · Entusiasmo · Exploración de ideas', weak: 'Puede ser demasiado optimista y perder el interés una vez que pasa el entusiasmo inicial.' },
+  CO: { name: 'Coordinador', cat: 'Social', color: '#276749', desc: 'Clarifica las metas del grupo y promueve la toma de decisiones. Maduro, seguro de sí mismo y delegador eficaz.', strengths: 'Liderazgo · Delegación · Visión de conjunto', weak: 'Puede ser percibido como manipulador y delegar su propia parte del trabajo.' },
+  IM: { name: 'Impulsor', cat: 'Acción', color: '#c05621', desc: 'Desafía al equipo y genera dinamismo para superar obstáculos. Enérgico, asertivo y orientado a los resultados.', strengths: 'Dinamismo · Manejo de presión · Orientación a resultados', weak: 'Puede ser provocador y, en ocasiones, herir los sentimientos de otras personas.' },
+  ME: { name: 'Monitor Evaluador', cat: 'Intelectual', color: '#285e61', desc: 'Analiza las opciones con objetividad y evalúa con juicio certero. Estratégico, perspicaz y poco influenciable por emociones.', strengths: 'Análisis crítico · Objetividad · Toma de decisiones', weak: 'A veces carece del impulso para inspirar a otros y puede ser excesivamente crítico.' },
+  CH: { name: 'Trabajador de Equipo', cat: 'Social', color: '#702459', desc: 'Escucha, construye y evita la fricción entre miembros. Diplomático, perceptivo y orientado a la armonía del grupo.', strengths: 'Empatía · Escucha activa · Diplomacia', weak: 'Puede ser indeciso en situaciones críticas y tiende a evitar la confrontación.' },
+  IP: { name: 'Implementador', cat: 'Acción', color: '#22543d', desc: 'Transforma ideas y decisiones en acciones concretas y prácticas. Disciplinado, confiable y eficiente.', strengths: 'Organización · Disciplina · Ejecución práctica', weak: 'Puede ser algo inflexible y lento para responder a nuevas posibilidades.' },
+  FI: { name: 'Finalizador', cat: 'Acción', color: '#744210', desc: 'Se asegura de que nada se deje sin terminar. Perfeccionista, concienzudo y ansioso por cumplir plazos con calidad.', strengths: 'Atención al detalle · Perseverancia · Cumplimiento de plazos', weak: 'Puede preocuparse en exceso y mostrarse reacio a delegar.' },
+  ES: { name: 'Especialista', cat: 'Intelectual', color: '#2c5282', desc: 'Aporta conocimiento profundo en áreas clave. Dedicado, independiente y con gran dominio de su especialidad.', strengths: 'Conocimiento técnico · Profesionalismo · Enfoque especializado', weak: 'Tiende a contribuir en un ámbito estrecho y puede centrarse demasiado en los aspectos técnicos.' }
 };
 
-// Cómo aportar este rol en las distintas etapas del Proyecto de Grado (MGPE)
+// Cómo aportar este rol en las distintas etapas del Proyecto de Grado (FEN&G)
 const ROLE_APPLICATIONS = {
   CE: 'En la formulación del problema y el marco teórico: propone enfoques poco obvios para abordar el diagnóstico y ayuda a que el objetivo general no se quede en lo genérico.',
   IR: 'En el vínculo con la organización: mantiene el contacto con la contraparte, gestiona accesos para el trabajo de campo y trae referencias externas útiles para el diagnóstico.',
@@ -430,6 +430,7 @@ function showResults() {
         </div>
         <div class="role-desc">${r.desc}</div>
         <div class="role-strengths"><strong>Fortalezas:</strong> ${r.strengths}</div>
+        <div class="role-strengths" style="margin-top:4px;"><strong>Debilidades permitidas:</strong> ${r.weak}</div>
       </div>
     `;
   });
@@ -515,11 +516,11 @@ function sendResultsByEmail() {
   const { sorted, top3, bottom2 } = lastResults;
 
   let body = 'RESULTADOS - TEST DE ROLES DE EQUIPO (BELBIN)\n';
-  body += 'Magíster en Gestión de Personas y Efectividad Organizacional · Proyecto de Grado\n\n';
+  body += 'Facultad de Economía, Negocios y Gobierno · Proyecto de Grado\n\n';
   body += 'TUS 3 ROLES PRINCIPALES:\n';
   top3.forEach(([code, score], idx) => {
     const r = ROLES[code];
-    body += `${idx + 1}. ${r.name} (${score} pts) — ${r.desc}\n`;
+    body += `${idx + 1}. ${r.name} (${score} pts) — ${r.desc} Debilidades permitidas: ${r.weak}\n`;
   });
   body += '\nCÓMO APORTAR ESTO EN TU PROYECTO DE GRADO:\n';
   top3.forEach(([code]) => {
